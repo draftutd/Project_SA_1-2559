@@ -1,0 +1,134 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<html>
+    <head>
+		<TITLE>ระบบสั่งชื้อสินค้าเข้าร้าน</TITLE>
+<style>
+table, th, td {
+    border: 0px;
+    border-collapse: collapse;
+}
+
+</style>
+    </head>
+
+    <body>
+    <script>
+    function createPuches() {
+        var data = $('#formCustomer').serialize();
+        data += "$amp;employee" + $('#employee').children(":selected").attr("id");
+        $.ajax({
+            url: "createpurchase",
+            type: "POST",
+            data: data,
+            success: function(){
+                alert("กดเมนู แสดงประวัติการสั่งซื้อทั้งหมด เพื่อดูรายการที่สั่งซื้อแล้ว");
+                location.reload()
+            },
+            error: function(){
+                alert("fail")
+            }
+        });
+    }
+    
+    function changePurchase(idOrder){
+        $.ajax({
+            url: "changePurchase",
+            type: "GET",
+            data: {
+            	idOrder: idOrder.id
+            },
+            success: function(data){
+                location.reload()
+            },
+            error: function(){
+                sweetAlert("fail")
+            }
+        });
+    }
+    
+    </script>
+
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+    <a href="http://localhost:8080/draft/purchase/all">
+    <button type="button" class="btn btn-default">แสดงประวัติการสั่งชื้อทั้งหมด</button>
+  	</a>
+  </div>
+  <div class="btn-group" role="group">
+     <a href="http://localhost:8080/draft/purchase/add">
+    <button type="button" class="btn btn-default">เพิ่มประวัติการสั่งชื้อ</button>
+  </a>
+  </div>
+  </div>
+   <p><strong><h2>เพิ่มประวัติการสั่งชื้อ</h2></strong></p>
+ 
+ <form id="createPuches" name="createPuches" method="post">  
+  <table class="table table-bordered">
+  <tr>
+    <td>ผู้สั่งชื้อ</td>
+    <td><select id="employeeName" name="employeeName" style="width: 200px" >
+        <option value="" selected="selected" disabled="disabled">Employee Name</option>
+        <c:forEach var="employee" items="${listEmployee}">
+        	<option id="${employee.id}">${employee.name}</option>
+        </c:forEach>
+       </select></td>
+</tr>
+  <tr>
+    <td>รายการสินค้า</td>
+    <td> <input type="text" name="productName" id="productName" size="80"/></td>
+</tr>
+<tr>
+    <td>จำนวน</td>
+    <td><input type="text" name="productAmount" id="productAmount" size="20"/></td>
+    </tr>
+<tr>
+    <td>ราคา</td>
+    <td><input type="text" name="price" id="price" size="20"/></td>
+    </tr>
+<tr>
+    <td>สถานะการสั่งชื้อ</td>
+    <td><input type="checkbox" id="status" name="status"/></td>
+</tr>
+<tr>
+    <td>วันที่สั่งชื้อ</td>
+    <td><input type="date" id="StringDate" name="StringDate" value="2014-02-09"/></td>
+</tr>
+</table>
+<br><button type="submit" class="btn btn-default" onclick="createPuches()">ยืนยัน</button></br>
+<br></br>
+</form>
+  
+
+     
+<table class="table table-bordered">
+  <tr>
+    <th>เลขที่</th>
+    <th>ผู้สังชื่อ</th>
+    <th>รายการสินค้า</th>
+    <th>จำนวน</th>
+    <th>ราคา</th>
+    <th>สถานะการสั่งชื้อ</th>
+    <th>วันที่สั่งชื้อ</th>
+    <th></th>
+  </tr>
+  <c:forEach var="order" items="${listOrder}">
+  	<c:if test="${order.status != true }">
+  	<tr>
+    	<td>${order.id}</td>
+    	<td>${order.employeeName}</td>
+    	<td>${order.productName}</td> 
+    	<td>${order.productAmount}</td> 
+    	<td>${order.price}</td> 
+    	<td>ยังไม่ได้สั่งซื้อ</td>  
+    	<td>${order.stringDate}</td> 
+    	<th><input type='button' id="${order.id}" value="ยืนยันการสั่งซื้อ" onclick="changePurchase(this)" class="btn btn-default" /></th>
+   </tr>
+   </c:if>
+  </c:forEach>
+
+</table>
+    </body>
+
+</html>
+</jsp:root>

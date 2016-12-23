@@ -1,0 +1,37 @@
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-10-01 18:01:05
+project --topLevelPackage com.draft
+jpa setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY
+entity jpa --class ~.domain.employee
+field string --fieldName name --notNull
+field string --fieldName address --notNull
+field string --fieldName phone --notNull
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-10-01 18:02:24
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-10-01 18:02:27
+entity jpa --class ~.domain.PurchaseOrder
+field reference --fieldName EmpName --type ~.domain.Employee
+field string --fieldName ProductName --notNull
+field number --fieldName ProductAmount --type java.lang.Integer
+field number --fieldName Price --type java.lang.Integer
+field boolean --fieldName Status
+field date --fieldName Dates --type java.util.Calendar
+web mvc setup
+web mvc all --package ~.web
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-10-01 18:04:17
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-10-03 19:58:18
+focus --class ~.domain.PurchaseOrder
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-10-03 20:02:18
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-10-04 00:22:46
+focus --class ~.domain.PurchaseOrder
+field string --fieldName stringDate
+web mvc all --package ~.web
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-10-04 00:23:57
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2559-10-04 01:26:35
+focus --class ~.domain.PurchaseOrder
+field string --fieldName employeeName 
+web mvc all --package ~.web
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2559-10-04 01:27:38
